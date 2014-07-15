@@ -270,14 +270,6 @@
 
 ### 12. catalog/view/theme/default/template/checkout/guest.tpl
 
-После строчки: `<h2><?php echo $text_your_details; ?></h2>`
-
-Изменить строку: `<div class="content">`
-
-на строку: `<div class="content" style="overflow: visible;">`
-
----
-
 После строчки: `<h2><?php echo $text_your_address; ?></h2>`
 
 Добавить:
@@ -320,14 +312,6 @@
 ```
 
 ### 13. catalog/view/theme/default/template/checkout/register.tpl
-
-После строчки: `<h2><?php echo $text_your_details; ?></h2>`
-
-Изменить строку: `<div class="content">`
-
-на строку: `<div class="content" style="overflow: visible;">`
-
----
 
 После строчки: `<h2><?php echo $text_your_address; ?></h2>`
 
