@@ -1,171 +1,177 @@
+(function($) {
+	"use strict";
 
-var FullNameSuggestions = {
-	init: function($options) {
-
-		var self = this;
-		self.$surname = $options.surname;
-		self.$name = $options.name;
-		var fioParts = ["SURNAME", "NAME"];
-		
-		var triggerSelectOnSpace = true;
-		if($options.correction == '1') {
-			triggerSelectOnSpace = true;
-		} else {
-			triggerSelectOnSpace = false;
-		}
-		
-		$.each([$options.surname, $options.name], function(index, $el) {
-			$el.suggestions({
-				serviceUrl: "https://dadata.ru/api/v2",
-				token: $options.token,
-				type: "NAME",
-				triggerSelectOnSpace: triggerSelectOnSpace,
-				useDadata: false,
-				hint: "",
-				count: $options.tips,
-				noCache: true,
-				params: {
-					// каждому полю --- соответствующая подсказка
-					parts: [fioParts[index]]
-				},
-
-				onSearchStart: function(params) {
-					// если пол известен на основании других полей,
-					// используем его
-					var $el = $(this);
-					params.gender = self.isGenderKnown($el) ? self.gender : "UNKNOWN";
-					if(index == 1) {
-						$('.dadata-gender').remove();
-					}
-				},
-
-				onSelect: function(suggestion) {
-					// определяем пол по выбранной подсказке
-					self.gender = suggestion.data.gender;
-					if($options.view_gender == '1') {
-						if(self.gender == 'MALE') {
-							gender = 'Мужской';
-						} else {
-							gender = 'Женский';
-						}
-						if(index == 1) {
-							$(this).next('.suggestions-wrapper').after('<span class="dadata-gender">Пол: ' + gender + '<br /></span>');
-						}
-					}
-				}
-			});
-		});
-	},
-	
-	isGenderKnown: function($el) {
-		var self = this;
-		var surname = self.$surname.val(),
-		name = self.$name.val();
-		if ( ($el.attr('id') == self.$surname.attr('id') && !name) || ($el.attr('id') == self.$name.attr('id') && !surname) ) {
-				return false;
-		} else {
-				return true;
-		}
+	function nvl(val) {
+		return val || '';
 	}
-};
 
+	var FullNameSuggestions = {
+		init: function($options) {
 
-var FullAddressSuggestions = {
+			var self = this;
+			self.$surname = $options.surname;
+			self.$name = $options.name;
+			var fioParts = ["SURNAME", "NAME"];
+			
+			$.each([$options.surname, $options.name], function(index, $el) {
+				$el.suggestions({
+					serviceUrl: "https://dadata.ru/api/v2",
+					token: $options.token,
+					type: "NAME",
+					triggerSelectOnSpace: ($options.correction == "1"),
+					useDadata: false,
+					hint: "",
+					count: $options.tips,
+					noCache: true,
+					params: {
+						// каждому полю --- соответствующая подсказка
+						parts: [fioParts[index]]
+					},
 
-	init: function($options) {
+					onSearchStart: function(params) {
+						// если пол известен на основании других полей,
+						// используем его
+						var $el = $(this);
+						params.gender = self.isGenderKnown($el) ? self.gender : "UNKNOWN";
+						if (index == 1) {
+							$(".dadata-gender").remove();
+						}
+					},
 
-		var self = this;
-		self.$address = $options.address;
-
-		var triggerSelectOnSpace = true;
-		if($options.correction == '1') {
-			triggerSelectOnSpace = true;
-		} else {
-			triggerSelectOnSpace = false;
-		}
+					onSelect: function(suggestion) {
+						// определяем пол по выбранной подсказке
+						self.gender = suggestion.data.gender;
+						if ($options.view_gender == "1") {
+							var gender = self.gender === "MALE" ? "Мужской" : 
+										 self.gender === "FEMALE" ? "Женский" :
+										 "Неизвестный";
+							if (index == 1) {
+								$(this).next('.suggestions-wrapper').after(
+									'<span class="dadata-gender">Пол: ' + gender + '<br /></span>'
+								);
+							}
+						}
+					}
+				});
+			});
+		},
 		
-		// инициализируем подсказки на всех трех текстовых полях
-		// (фамилия, имя, отчество)
-		$.each([$options.address], function(index, $el) {
+		isGenderKnown: function($el) {
+			var self = this,
+				surname = self.$surname.val(),
+				name = self.$name.val(),
+				nameUnknown = $el.attr('id') == self.$surname.attr('id') && !name,
+				surnameUnknown = $el.attr('id') == self.$name.attr('id') && !surname;
+			return !(nameUnknown || surnameUnknown);
+		}
+	};
+
+	var FullAddressSuggestions = {
+
+		init: function($options) {
+			var self = this;
+			self.$address = $options.address;
+			
+			// инициализируем подсказки на всех трех текстовых полях
+			// (фамилия, имя, отчество)
+			$.each([$options.address], function(index, $el) {
+				self.initSuggestions($el, $options);
+			});
+		},
+
+		initSuggestions: function($el, $options) {
+			var self = this;
 			$el.suggestions({
 				serviceUrl: "https://dadata.ru/api/v2",
 				token: $options.token,
 				type: "ADDRESS",
-				triggerSelectOnSpace: triggerSelectOnSpace,
+				triggerSelectOnSpace: ($options.correction == '1'),
 				count: $options.tips,
+				
 				onSearchStart: function(params) {
 					$('.dadata-additional').remove();
 				},
 
 				onSelect: function(suggestion) {
-					if (suggestion.data) {
-						$('.dadata-additional').remove();
-						var address = suggestion.data;
-
-						if($options.additional == '1') {
-							var kladr = ''; 
-							var okato = '';
-							var oktmo = '';
-							var ifns = '';
-							if(address.kladr_id != null) {
-								kladr = address.kladr_id;
-							}
-							if(address.okato != null) {
-								okato = address.okato;
-							}
-							if(address.oktmo != null) {
-								oktmo = address.oktmo;
-							}
-							if(address.tax_office != null) {
-								ifns = address.tax_office;
-							}
-							$(this).next('.suggestions-wrapper').after('<span class="dadata-additional">Код КЛАДР: ' + kladr + '<br /> Код ОКАТО: ' + okato + '<br />Код ОКТМО: ' + oktmo + '<br />Код ИФНС: ' + ifns + '<br /></span>');
-						}
-
-						if(address.postal_code != null) {
-							$("input[name=\'postcode\']").val(address.postal_code);
-						}
-
-						var city = '';
-						if (address.city == null && address.settlement == null) {
-							city = address.region_type + '. ' + address.region;
-						} else {
-							if(address.city_type != null && address.city != null) {
-								city = address.city_type + '. ' + address.city;
-							}
-							if(address.settlement_type != null && address.settlement != null) {
-								city = city + ' ' + address.settlement_type + '. ' +
-								address.settlement;
-							}
-						}
-						$("input[name=\'city\']").val(city);
-
-						var address_1 = '';
-						if(address.street_type != null && address.street != null) {
-							address_1 = address.street_type + '. ' + address.street;
-						}
-						if(address.house_type != null && address.house != null) {
-							address_1 = address_1 + ', ' + address.house_type + '. ' + address.house;
-						}
-						if(address.flat_type != null && address.flat != null) {
-							address_1 = address_1 + ', ' + address.flat_type + '. ' + address.flat;
-						}
-						$("input[name=\'address_1\']").val(address_1);
-
-						var region;
-						if(address.region != null && address.region_type != null) {
-							region = address.region + ',' + address.region_type;
-							$("select[name=\'zone_id\'] option").each(function(){
-								if(this.text == region) { 
-									$("select[name=\'zone_id\']").find("option:contains('" + region + "')").attr("selected", "selected");
-								}
-							});
-						}
-
+					if (!suggestion.data) {
+						return;
+					}
+					$('.dadata-additional').remove();
+					var address = suggestion.data;
+					if ($options.additional == '1') {
+						$(this).next('.suggestions-wrapper').after(
+							self.getAdditional(address)
+						);
+					}
+					$("input[name=\'postcode\']").val(
+						nvl(address.postal_code)
+					);
+					$("input[name='city']").val(
+						self.getCity(address)
+					);
+					$("input[name=\'address_1\']").val(
+						self.getStreetAddress(address)
+					);
+					if (address.region) {
+						self.selectRegion(address, $("select[name='zone_id']"));
 					}
 				}
 				
 			});
-		});
-	}
-};
+		},
+
+		getCity: function(address) {
+			var city = '';
+			// города-регионы пишем в город
+			if (address.city === null && address.settlement === null && address.area === null) {
+				city = address.region_type + '. ' + address.region;
+			// район + город + населенный пункт
+			} else {
+				if (address.area) {
+					city += address.area_type + ' ' + address.area;
+				}
+				if (address.city) {
+					city += ', ' + address.city_type + ' ' + address.city;
+				}
+				if (address.settlement) {
+					city += ', ' + address.settlement_type + ' ' + address.settlement;
+				}
+			}
+			return city;
+		},
+
+		getStreetAddress: function(address) {
+			// улица + дом + квартира
+			var address_1 = '';
+			if (address.street_type && address.street) {
+				address_1 += address.street_type + ' ' + address.street;
+			}
+			if(address.house_type != null && address.house != null) {
+				address_1 += ', ' + address.house_type + ' ' + address.house;
+			}
+			if(address.flat_type != null && address.flat != null) {
+				address_1 += ', ' + address.flat_type + ' ' + address.flat;
+			}
+			return address_1;
+		},
+
+		getAdditional: function(address) {
+			return '<span class="dadata-additional">Код КЛАДР: ' + nvl(address.kladr_id) + 
+					'<br /> Код ОКАТО: ' + nvl(address.okato) + 
+					'<br />Код ОКТМО: ' + nvl(address.oktmo) + 
+					'<br />Код ИФНС: ' + nvl(address.ifns) + '<br /></span>';
+		},
+
+		selectRegion: function(address, $el) {
+			$el.children("option").each(function() {
+				if (this.text.indexOf(address.region) !== -1) { 
+					$(this).attr("selected", "selected")
+				}
+			});
+		}
+
+	};
+
+	window.FullNameSuggestions = FullNameSuggestions;
+	window.FullAddressSuggestions = FullAddressSuggestions;
+})(jQuery);
