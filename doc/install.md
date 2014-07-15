@@ -271,7 +271,9 @@
 ### 12. catalog/view/theme/default/template/checkout/guest.tpl
 
 После строчки: `<h2><?php echo $text_your_details; ?></h2>`
+
 Изменить строку: `<div class="content">`
+
 на строку: `<div class="content" style="overflow: visible;">`
 
 ---
@@ -320,7 +322,9 @@
 ### 13. catalog/view/theme/default/template/checkout/register.tpl
 
 После строчки: `<h2><?php echo $text_your_details; ?></h2>`
+
 Изменить строку: `<div class="content">`
+
 на строку: `<div class="content" style="overflow: visible;">`
 
 ---
@@ -368,6 +372,27 @@
 
 ### 14. catalog/view/theme/default/template/checkout/payment_address.tpl
 
+Перед блоком:
+```
+    <tr>
+        <td><span class="required">*</span> <?php echo $entry_address_1; ?></td>
+        <td><input type="text" name="address_1" value="" class="large-field" /></td>
+    </tr>
+```
+
+Добавить:
+```
+    <?php if($dadata_status) { ?>
+      <tr>
+        <td colspan="2">
+          <input type="text" name="address" placeholder="Введите адрес в свободной форме, остальные поля заполнятся автоматически" />
+        </td>   
+      </tr>
+    <?php } ?>
+```
+
+---
+
 В конец файла добавить:
 
 ```
@@ -394,6 +419,27 @@
 ```
 
 ### 15. catalog/view/theme/default/template/checkout/shipping_address.tpl
+
+Перед блоком:
+```
+    <tr>
+        <td><span class="required">*</span> <?php echo $entry_address_1; ?></td>
+        <td><input type="text" name="address_1" value="" class="large-field" /></td>
+    </tr>
+```
+
+Добавить:
+```
+    <?php if($dadata_status) { ?>
+      <tr>
+        <td colspan="2">
+          <input type="text" name="address" placeholder="Введите адрес в свободной форме, остальные поля заполнятся автоматически" />
+        </td>   
+      </tr>
+    <?php } ?>
+```
+
+---
 
 В конец файла добавить:
 
