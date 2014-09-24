@@ -11,7 +11,7 @@
             var self = this;
             self.$surname = $options.surname;
             self.$name = $options.name;
-            var fioParts = ["SURNAME", ["NAME", "PATRONYMIC"]];
+            var fioParts = [["SURNAME"], ["NAME", "PATRONYMIC"]];
             
             $.each([$options.surname, $options.name], function(index, $el) {
                 $el.suggestions({
@@ -25,7 +25,7 @@
                     noCache: true,
                     params: {
                         // каждому полю --- соответствующая подсказка
-                        parts: [fioParts[index]]
+                        parts: fioParts[index]
                     },
 
                     onSearchStart: function(params) {
