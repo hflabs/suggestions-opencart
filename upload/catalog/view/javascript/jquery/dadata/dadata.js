@@ -11,7 +11,7 @@
             var self = this;
             self.$surname = $options.surname;
             self.$name = $options.name;
-            var fioParts = ["SURNAME", "NAME"];
+            var fioParts = ["SURNAME", ["NAME", "PATRONYMIC"]];
             
             $.each([$options.surname, $options.name], function(index, $el) {
                 $el.suggestions({
