@@ -15,7 +15,7 @@
             
             $.each([$options.surname, $options.name], function(index, $el) {
                 $el.suggestions({
-                    serviceUrl: "https://dadata.ru/api/v2",
+                    serviceUrl: $options.url,
                     token: $options.token,
                     type: "NAME",
                     triggerSelectOnSpace: ($options.correction == "1"),
@@ -82,7 +82,7 @@
         initSuggestions: function($el, $options) {
             var self = this;
             $el.suggestions({
-                serviceUrl: "https://dadata.ru/api/v2",
+                serviceUrl: $options.url,
                 token: $options.token,
                 type: "ADDRESS",
                 triggerSelectOnSpace: ($options.correction == '1'),

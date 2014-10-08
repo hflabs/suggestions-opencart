@@ -1,33 +1,6 @@
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+DELETE `oc_zone` WHERE country_id=176;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `zone`
---
-
-DROP TABLE IF EXISTS `zone`;
-CREATE TABLE IF NOT EXISTS `zone` (
-  `zone_id` int(11) NOT NULL AUTO_INCREMENT,
-  `country_id` int(11) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `code` varchar(32) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`zone_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2809 ;
-
-
-
---
--- Дамп данных таблицы `zone`
---
-
-INSERT INTO `zone` (`country_id`, `name`, `code`, `status`) VALUES
+INSERT INTO `oc_zone` (`country_id`, `name`, `code`, `status`) VALUES
 (176,'респ Адыгея','01',1),
 (176,'респ Алтай','04',1),
 (176,'Алтайский край','22',1),

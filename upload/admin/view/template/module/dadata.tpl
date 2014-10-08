@@ -84,21 +84,39 @@
 					</select>
 				</td>
 			</tr>
-			<tr>
-				<td><?php echo $entry_status; ?></td>
-				<td class="left">
-					<select name="dadata_status">
-						<?php if($dadata_status) { ?>
-							<option value="1" selected="selected"><?php echo $text_enabled; ?></option>
-							<option value="0"><?php echo $text_disabled; ?></option>
-						<?php } else { ?>
-							<option value="1"><?php echo $text_enabled; ?></option>
-							<option value="0" selected="selected"><?php echo $text_disabled; ?></option>
-						<?php } ?>
-					</select>
-				</td>
-			</tr>
-		</table>
+            <tr>
+                <td><?php echo $entry_status; ?></td>
+                <td class="left">
+                    <select name="dadata_status">
+                        <?php if($dadata_status) { ?>
+                        <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+                        <option value="0"><?php echo $text_disabled; ?></option>
+                        <?php } else { ?>
+                        <option value="1"><?php echo $text_enabled; ?></option>
+                        <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+                        <?php } ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><?php echo $entry_paid; ?></td>
+                <td class="left">
+                    <select name="dadata_paid">
+                        <?php if($dadata_paid=='free') { ?>
+                        <option value="free" selected="selected"><?php echo $text_free; ?></option>
+                        <option value="paid"><?php echo $text_paid; ?></option>
+                        <?php } else { ?>
+                        <option value="free"><?php echo $text_free; ?></option>
+                        <option value="paid" selected="selected"><?php echo $text_paid; ?></option>
+                        <?php } ?>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <?php foreach ($modules as $mod_id => $mod_val)
+        foreach ($mod_val as $attr_id => $attr_val) { ?>
+        <input type="hidden" value="<?php echo $attr_val ?>" name="dadata_module[<?php echo $mod_id ?>][<?php echo $attr_id ?>]"/>
+        <?php } ?>
     </form>
   </div>
 </div>
