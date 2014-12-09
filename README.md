@@ -60,7 +60,7 @@ $ mysql opencart -u opencart -p < zone.sql
 История изменений
 -----------------
 * 1.2
- * Добавлена поддержка simplecheckout (спасибо deeman)
+ * Добавлена поддержка simplecheckout (спасибо [deeman](https://opencartforum.com/user/16563-deeman/))
 
 * 1.1 
  * Добавлена возможность использовать платную версию сервиса
