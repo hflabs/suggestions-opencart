@@ -97,23 +97,28 @@
                         return;
                     }
                     $('.dadata-additional').remove();
+                    var $where = $(this).parents(".simplecheckout-block");
+                    
+                    if (!$where.length) {
+                        $where = $(document);
+                    }
                     var address = suggestion.data;
                     if ($options.additional == '1') {
                         $(this).next('.suggestions-wrapper').after(
                             self.getAdditional(address)
                         );
                     }
-                    $("input[name=\'postcode\']").val(
+                    $where.find("input[name*=postcode]").val(
                         nvl(address.postal_code)
                     );
-                    $("input[name='city']").val(
+                    $where.find("input[name*=city]").val(
                         self.getCity(address)
                     );
-                    $("input[name=\'address_1\']").val(
+                    $where.find("input[name*=address_1]").val(
                         self.getStreetAddress(address)
                     );
                     if (address.region) {
-                        self.selectRegion(address, $("select[name='zone_id']"));
+                        self.selectRegion(address, $where.find("select[name*=zone_id]"));
                     }
                 }
                 
@@ -146,10 +151,10 @@
             if (address.street_type && address.street) {
                 address_1 += address.street_type + ' ' + address.street;
             }
-            if(address.house_type != null && address.house != null) {
+            if(address.house_type !== null && address.house !== null) {
                 address_1 += (address_1 ? ', ' : '') + address.house_type + ' ' + address.house;
             }
-            if(address.flat_type != null && address.flat != null) {
+            if(address.flat_type !== null && address.flat !== null) {
                 address_1 += (address_1 ? ', ' : '') + address.flat_type + ' ' + address.flat;
             }
             return address_1;
@@ -165,7 +170,7 @@
         selectRegion: function(address, $el) {
             $el.children("option").each(function() {
                 if (this.text.indexOf(address.region) !== -1) { 
-                    $(this).attr("selected", "selected")
+                    $(this).attr("selected", "selected");
                 }
             });
         }

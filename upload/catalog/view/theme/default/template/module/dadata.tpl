@@ -11,8 +11,8 @@
 
 
             FullNameSuggestions.init({
-                name: $('input[name=\'firstname\']'),
-                surname: $('input[name=\'lastname\']'),
+                name: $('input[name*=firstname]'),
+                surname: $('input[name*=lastname]'),
                 url: dadataUrl,
                 token: "<?php echo $dadata_api; ?>",
                 tips: "<?php echo $dadata_tips;?>",
@@ -20,16 +20,16 @@
                 view_gender: "<?php echo $dadata_gender; ?>"
             });
 
-            var addressParent = $('input[name="address_1"]').parents("tbody");
-            if (addressParent.length>0) addressParent.prepend('<tr><td colspan = "2">' + addressInputHtml + '</td></tr >')
+            var addressParent = $('input[name*=address_1]').parents("tbody");
+            if (addressParent.length > 0) addressParent.prepend('<tr><td colspan = "2">' + addressInputHtml + '</td></tr >')
             else {
-                addressParent = $('input[name="address_1"]').prevAll("span");
+                addressParent = $('input[name*=address_1]').prevAll("span");
                 if (addressParent.length > 0)
-                addressParent.before(addressInputHtml);
+                    addressParent.before(addressInputHtml);
             }
 
             FullAddressSuggestions.init({
-                address: $('input[name=\'address\']'),
+                address: $('input[name=address]'),
                 url: dadataUrl,
                 token: "<?php echo $dadata_api; ?>",
                 tips: "<?php echo $dadata_tips;?>",
@@ -42,13 +42,17 @@
 
     $(document).ready(function () {
         initFields();
-        $(document).ajaxComplete( function (e, xhr, settings) {
-            if (settings.url=="index.php?route=checkout/guest" ||
-                    settings.url== "index.php?route=checkout/guest_shipping" ||
+        $(document).ajaxComplete(function (e, xhr, settings) {
+            if (settings.url == "index.php?route=checkout/guest" ||
+                    settings.url == "index.php?route=checkout/guest_shipping" ||
                     settings.url == "index.php?route=checkout/register" ||
                     settings.url == "index.php?route=checkout/shipping_address" ||
-                    settings.url == "index.php?route=checkout/payment_address")
-            initFields();
+                    settings.url == "index.php?route=checkout/payment_address" ||
+                    settings.url.indexOf("route=checkout/simplecheckout") > 0 ||
+                    settings.url.indexOf("route=account/simpleaddress") > 0 ||
+                    settings.url.indexOf("route=account/simpleedit") > 0 ||
+                    settings.url.indexOf("route=account/simpleregister") > 0)
+                initFields();
         });
     });
     //--></script>
