@@ -1,4 +1,4 @@
-DELETE `oc_zone` WHERE country_id=176;
+DELETE FROM `oc_zone` WHERE country_id=176;
 
 INSERT INTO `oc_zone` (`country_id`, `name`, `code`, `status`) VALUES
 (176,'респ Адыгея','01',1),
