@@ -160,7 +160,7 @@ class ControllerModuleDadata extends Controller
         }
 
         $this->load->model('design/layout');
-        $layouts = array('Account', 'Checkout');
+        $layouts = array('Account', 'Checkout', 'Аккаунт', 'Оформление заказ');
         $i = 0;
         foreach ($this->model_design_layout->getLayouts() as $layval) {
             if (in_array($layval['name'], $layouts)) {
