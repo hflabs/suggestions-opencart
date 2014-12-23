@@ -20,22 +20,24 @@
                 view_gender: "<?php echo $dadata_gender; ?>"
             });
 
-            var addressParent = $('input[name*=address_1]').parents("tbody");
-            if (addressParent.length > 0) addressParent.prepend('<tr><td colspan = "2">' + addressInputHtml + '</td></tr >')
-            else {
-                addressParent = $('input[name*=address_1]').prevAll("span");
-                if (addressParent.length > 0)
-                    addressParent.before(addressInputHtml);
-            }
+            if ($('input[name=address]').length == 0) {
+                var addressParent = $('input[name*=address_1]').parents("tbody");
+                if (addressParent.length > 0) addressParent.prepend('<tr><td colspan = "2">' + addressInputHtml + '</td></tr >')
+                else {
+                    addressParent = $('input[name*=address_1]').prevAll("span");
+                    if (addressParent.length > 0)
+                        addressParent.before(addressInputHtml);
+                }
 
-            FullAddressSuggestions.init({
-                address: $('input[name=address]'),
-                url: dadataUrl,
-                token: "<?php echo $dadata_api; ?>",
-                tips: "<?php echo $dadata_tips;?>",
-                correction: "<?php echo $dadata_correction; ?>",
-                additional: "<?php echo $dadata_additional; ?>"
-            });
+                FullAddressSuggestions.init({
+                    address: $('input[name=address]'),
+                    url: dadataUrl,
+                    token: "<?php echo $dadata_api; ?>",
+                    tips: "<?php echo $dadata_tips;?>",
+                    correction: "<?php echo $dadata_correction; ?>",
+                    additional: "<?php echo $dadata_additional; ?>"
+                });
+            }
         }
 
     }
