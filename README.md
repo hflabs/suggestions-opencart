@@ -19,7 +19,7 @@ OcStore 1.5.5.x.
 
 ### 1. Установите модуль
 
-Прежде всего, скачайте [дистрибутив](https://github.com/hflabs/suggestions-opencart/releases), распакуйте его, и скопируйте файлы из каталога `upload` в корень opencart-магазина.
+Прежде всего, скачайте [дистрибутив](hhttps://github.com/hflabs/suggestions-opencart/releases/latest), распакуйте его, и скопируйте файлы из каталога `upload` в корень opencart-магазина.
 
 Для замены регионов России на корректные значения из КЛАДР выполните SQL-скрипт `zone.sql` над БД магазина через phpMyAdmin либо из консоли:
 
