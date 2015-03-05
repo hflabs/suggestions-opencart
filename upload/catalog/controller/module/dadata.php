@@ -23,7 +23,7 @@ class ControllerModuleDadata extends Controller
         $this->data['dadata_gender'] = $this->config->get('dadata_gender');
         $this->data['dadata_paid'] = $this->config->get('dadata_paid');
         $this->data['dadata_status'] = $this->config->get('dadata_status');
-        $this->data['dadata_paid'] = $this->config->get('dadata_paid');
+        $this->data['dadata_citytype'] = $this->config->get('dadata_citytype');
 
 
         if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/dadata.tpl')) {

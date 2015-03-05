@@ -1,5 +1,6 @@
 <script type="text/javascript"><!--
     var status = '<?php echo $dadata_status;?>';
+
     var dadataUrl = '<?php echo ($dadata_paid=="free"?"https://dadata.ru/api/v2":"http://suggestions.dadata.ru/suggestions/api/4_1/rs/")?>'
     var addressInputHtml = '<input type = "text" ' +
             'name = "address" ' +
@@ -31,7 +32,8 @@
 
                 FullAddressSuggestions.init({
                     address: $('input[name=address]'),
-                    url: dadataUrl,
+                    url: dadataUrl ,
+                    dadata_citytype: <?php echo (isset($dadata_citytype)?$dadata_citytype:'1'); ?>,
                     token: "<?php echo $dadata_api; ?>",
                     tips: "<?php echo $dadata_tips;?>",
                     correction: "<?php echo $dadata_correction; ?>",

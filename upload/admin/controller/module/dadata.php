@@ -35,6 +35,7 @@ class ControllerModuleDadata extends Controller
         $this->data['entry_additional'] = $this->language->get('entry_additional');
         $this->data['entry_gender'] = $this->language->get('entry_gender');
         $this->data['entry_paid'] = $this->language->get('entry_paid');
+        $this->data['entry_citytype'] = $this->language->get('entry_citytype');
 
         $this->data['button_save'] = $this->language->get('button_save');
         $this->data['button_cancel'] = $this->language->get('button_cancel');
@@ -147,6 +148,16 @@ class ControllerModuleDadata extends Controller
             }
         }
 
+        if (isset($this->request->post['dadata_citytype'])) {
+            $this->data['dadata_citytype'] = $this->request->post['dadata_citytype'];
+        } else {
+            $citytype = $this->config->get('dadata_citytype');
+            if (strlen(trim($citytype)) > 0) {
+                $this->data['dadata_citytype'] = $this->config->get('dadata_citytype');
+            } else {
+                $this->data['dadata_citytype'] = 1;
+            }
+        }
 
         $this->template = 'module/dadata.tpl';
         $this->children = array(

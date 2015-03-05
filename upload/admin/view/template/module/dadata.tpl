@@ -18,7 +18,7 @@
 		<table id="module" class="form">
 			<tr>
 				<td>
-					<span class="required">*</span> 
+					<span class="required">*</span>
 					<?php echo $entry_api; ?>
 				</td>
 				<td>
@@ -108,6 +108,20 @@
                         <?php } else { ?>
                         <option value="free"><?php echo $text_free; ?></option>
                         <option value="paid" selected="selected"><?php echo $text_paid; ?></option>
+                        <?php } ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><?php echo $entry_citytype; ?></td>
+                <td class="left">
+                    <select name="dadata_citytype">
+                        <?php if($dadata_citytype) { ?>
+                        <option value="1" selected="selected"><?php echo $text_yes; ?></option>
+                        <option value="0"><?php echo $text_no; ?></option>
+                        <?php } else { ?>
+                        <option value="1"><?php echo $text_yes; ?></option>
+                        <option value="0" selected="selected"><?php echo $text_no; ?></option>
                         <?php } ?>
                     </select>
                 </td>

@@ -112,7 +112,7 @@
                         nvl(address.postal_code)
                     );
                     $where.find("input[name*=city]").val(
-                        self.getCity(address)
+                        self.getCity(address,$options.dadata_citytype)
                     );
                     $where.find("input[name*=address_1]").val(
                         self.getStreetAddress(address)
@@ -125,21 +125,21 @@
             });
         },
 
-        getCity: function(address) {
+        getCity: function(address,showType) {
             var city = '';
             // города-регионы пишем в город
             if (address.city === null && address.settlement === null && address.area === null) {
-                city = address.region_type + '. ' + address.region;
+                city = (showType?address.region_type + '. ':'') + address.region;
             // район + город + населенный пункт
             } else {
                 if (address.area) {
-                    city += address.area_type + ' ' + address.area;
+                    city += (showType?address.area_type + ' ':'') + address.area;
                 }
                 if (address.city) {
-                    city += (city ? ', ' : '') + address.city_type + ' ' + address.city;
+                    city += (city ? ', ' : '') + (showType?address.city_type + ' ':'') + address.city;
                 }
                 if (address.settlement) {
-                    city += (city ? ', ' : '') + address.settlement_type + ' ' + address.settlement;
+                    city += (city ? ', ' : '') + (showType?address.settlement_type + ' ':'') + address.settlement;
                 }
             }
             return city;
